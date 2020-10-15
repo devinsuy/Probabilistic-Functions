@@ -30,9 +30,9 @@ def party_support(N=1000, A=500, B=300, C=200, group=4, trials=100000):
         if full_support(sample): support_count[sample[0]] += 1
     
     # Calculate probabilities
-    a_support = round(support_count['A']/trials, 4)
-    b_support = round(support_count['B']/trials, 4)
-    c_support = round(support_count['C']/trials, 4)
+    a_support = round(support_count['A']/trials, 5)
+    b_support = round(support_count['B']/trials, 5)
+    c_support = round(support_count['C']/trials, 5)
 
     # Output the sampled probability of each party having unanimous support from our trials
     print("Results\n-------")
@@ -57,7 +57,6 @@ def party_support(N=1000, A=500, B=300, C=200, group=4, trials=100000):
     plt.show()
 
 # party_support()
-
 
 '''
 A class of 4n children contains 2n boys and 2n girls. A group of 2n children is chosen at random.
@@ -87,7 +86,7 @@ def class_select(select_scalar=2, boy_scalar=2, girl_scalar=2, N=10, trials=1000
     for _ in range(trials):
         sample = random.sample(population, (select_scalar*N))
         if has_equal(sample): equal_count += 1
-    p_equal = round(equal_count/trials, 4)
+    p_equal = round(equal_count/trials, 5)
 
     # Output results
     print("Results\n-------")
@@ -99,4 +98,36 @@ def class_select(select_scalar=2, boy_scalar=2, girl_scalar=2, N=10, trials=1000
     print("\nProbability of equal distribution:", p_equal, 
         "(" + str(equal_count) + "/" + str(trials) + ")")
 
-class_select()
+# class_select()
+
+'''
+In a lottery game, the player picks 4 numbers from a sequence of 1 through 20. At lottery
+drawing, 4 balls are drawn at random from a box containing 20 balls numbered 1 through 20.
+What is the probability that the player will win the lottery (i.e. getting 4 matches in any order)?
+'''
+def lottery(min_number=1, max_number=20, draw_size=4, trials=100000):
+    # Generate randomized number pool
+    number_pool = [i for i in range(min_number, max_number+1)]
+    for _ in range(500): random.shuffle(number_pool)
+
+    # For each trial, randomly select draw_size numbers for the player, then
+    # draw_size numbers representing the the winning numbers
+    win_count = 0
+    for _ in range(trials):
+        player = set(random.sample(number_pool, draw_size))
+        winning = set(random.sample(number_pool, draw_size))
+        # Sets are unordered, winning numbers can match in any order
+        if player == winning: win_count += 1
+    p_win = round(win_count/trials, 5)
+
+    # Output results
+    print("Results\n-------")
+    print("Number pool: [" + str(min_number) + ", " + str(max_number) + "]") 
+    print("Amount of numbers selected:", draw_size)
+    print("Number of trials:", trials)
+    print("\nProbability of lottery win:", p_win, 
+        "(" + str(win_count) + "/" + str(trials) + ")")
+    
+
+
+lottery()
