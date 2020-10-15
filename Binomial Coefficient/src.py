@@ -1,3 +1,6 @@
+# ------------
+# Devin Suy 
+# ------------
 import random
 import matplotlib.pyplot as plt
 
@@ -128,6 +131,4 @@ def lottery(min_number=1, max_number=20, draw_size=4, trials=100000):
     print("\nProbability of lottery win:", p_win, 
         "(" + str(win_count) + "/" + str(trials) + ")")
     
-
-
 lottery()
