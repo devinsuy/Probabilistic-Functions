@@ -51,7 +51,7 @@ def psuedo_rand(a=1, b=10, n=1000000):
     plt.title("CDF (Psuedo-random) For [" + str(a) + ", " + str(b) + "] Over n=" + str(n) + " Trials")
     plt.plot(cdf_pcts.keys(), cdf_pcts.values(), 'b-')
     plt.xlabel("Interval Values")
-    plt.ylabel("f(x)")
+    plt.ylabel("F(x)")
     plt.show()
 
 psuedo_rand()
