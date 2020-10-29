@@ -57,7 +57,6 @@ def psuedo_rand(a=1, b=10, n=1000000):
 
 # psuedo_rand()
 
-
 '''
 A random variable that is uniformly distributed over the interval (a, b) follows the probability density
 function (pdf) given by: 
@@ -79,17 +78,18 @@ def get_uni_pdf(a, b):
 def get_uni_cdf(x, a, b):
     return round((x-a)/(b-a), 4)
 
-def uniform_eq(a=1, b=10):
+def uniform_eq(a=1, b=10, n=1000000):
+    x_vals = np.linspace(a-1, b+1, n)
     # PDF map values to uniform distribution f(x)
     pdf_pcts = {}
     pdf_val = get_uni_pdf(a, b)
-    for x in range(a-1, b+2): 
+    for x in x_vals: 
         if x > a and x < b: pdf_pcts[x] = pdf_val
         else: pdf_pcts[x] = 0
 
     # CDF map values to uniform distrubtion F(x)
     cdf_pcts = {}
-    for x in range(a-1, b+2):
+    for x in x_vals:
         if x > a and x < b: cdf_pcts[x] = get_uni_cdf(x, a, b)
         elif x <= a: cdf_pcts[x] = 0
         elif x >= b: cdf_pcts[x] = 1
@@ -97,19 +97,20 @@ def uniform_eq(a=1, b=10):
     # Output results
     print("Results\n-------")
     print("Uniform Implementation")
-    print("Values on interval [" + str(a) + ", " + str(b) + "]")
-    print("PDF f(x):", pdf_pcts)
-    print("CDF F(x):", cdf_pcts)
+    print("Values on interval (" + str(a) + ", " + str(b) + ")")
+    print("Number of values: n =", n)
+    # print("PDF f(x):", pdf_pcts)
+    # print("CDF F(x):", cdf_pcts)
 
     # Plot PDF and CDF horizontally
     plt.subplot(1,2,1)
-    plt.title("Uniform Probability Density Function For [" + str(a) + ", " + str(b) + "]")
+    plt.title("Uniform Probability Density Function For (" + str(a) + ", " + str(b) + ") Over n=" + str(n) + " values")
     plt.plot(pdf_pcts.keys(), pdf_pcts.values(), 'r-')
     plt.xlabel("Interval Values")
     plt.ylabel("f(x)")
 
     plt.subplot(1,2,2)
-    plt.title("Cumulative Distribution Function For [" + str(a) + ", " + str(b) + "]")
+    plt.title("Cumulative Distribution Function For (" + str(a) + ", " + str(b) + ") Over n=" + str(n) + " values")
     plt.plot(cdf_pcts.keys(), cdf_pcts.values(), 'b-')
     plt.xlabel("Interval Values")
     plt.ylabel("F(x)")
@@ -118,15 +119,28 @@ def uniform_eq(a=1, b=10):
 # uniform_eq()
 
 '''
-Implementation using scipi.stats.uniform pdf() and cdf() functions
+Implementation using scipy.stats.uniform pdf() and cdf() functions
+over specified n evenly spaced values 
 '''
 def uniform_stats(a=1, b=10, n=1000000):
-    #x = np.linspace(a, b)
-    x = uni(a)
-    # y = uni.pdf(x)
-    # print(y)
-    print(x)
-    # plt.plot(x, uni.pdf(x))
-    #plt.show()
+    x = np.linspace(a-1, b+1, n)
+    pdf_y = uni.pdf(x, a, b-1)
+    cdf_y = uni.cdf(x, a, b-1)
 
-uniform_stats()
+    # Plot PDF and CDF horizontally
+    plt.subplot(1,2,1)
+    plt.title("Uniform Probability Density Function (scipy) For (" + str(a) + ", " + str(b) + ") Over n=" + str(n) + " values")
+    plt.plot(x, pdf_y, 'r-')
+    plt.xlabel("Interval Values")
+    plt.ylabel("f(x)")
+
+    plt.subplot(1,2,2)
+    plt.title("Cumulative Distribution Function (scipy) For (" + str(a) + ", " + str(b) + ") Over n=" + str(n) + " values")
+    plt.plot(x, cdf_y, 'b-')
+    plt.xlabel("Interval Values")
+    plt.ylabel("F(x)")
+    plt.show()
+
+# uniform_stats()
+
+
