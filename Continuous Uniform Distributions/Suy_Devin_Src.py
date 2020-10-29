@@ -72,10 +72,17 @@ The cumulative distribution function (cdf) for a uniform random variable is:
             }
 Python implementation for (a, b) = (1, 10)
 '''
-def uniform(a=1, b=10):
+
+# Utility functions implementing the above equations
+def get_uni_pdf(a, b):
+    return round(1/(b-a), 4)
+def get_uni_cdf(x, a, b):
+    return round((x-a)/(b-a), 4)
+
+def uniform_eq(a=1, b=10):
     # PDF map values to uniform distribution f(x)
-    pdf_val = round(1/(b-a), 4)
     pdf_pcts = {}
+    pdf_val = get_uni_pdf(a, b)
     for x in range(a-1, b+2): 
         if x > a and x < b: pdf_pcts[x] = pdf_val
         else: pdf_pcts[x] = 0
@@ -83,12 +90,9 @@ def uniform(a=1, b=10):
     # CDF map values to uniform distrubtion F(x)
     cdf_pcts = {}
     for x in range(a-1, b+2):
-        if x > a and x < b:
-            cdf_pcts[x] = round((x-a)/(b-a), 4)
-        elif x <= a:
-            cdf_pcts[x] = 0
-        elif x >= b:
-            cdf_pcts[x] = 1
+        if x > a and x < b: cdf_pcts[x] = get_uni_cdf(x, a, b)
+        elif x <= a: cdf_pcts[x] = 0
+        elif x >= b: cdf_pcts[x] = 1
 
     # Output results
     print("Results\n-------")
@@ -111,4 +115,18 @@ def uniform(a=1, b=10):
     plt.ylabel("F(x)")
     plt.show()
 
-uniform()
+# uniform_eq()
+
+'''
+Implementation using scipi.stats.uniform pdf() and cdf() functions
+'''
+def uniform_stats(a=1, b=10, n=1000000):
+    #x = np.linspace(a, b)
+    x = uni(a)
+    # y = uni.pdf(x)
+    # print(y)
+    print(x)
+    # plt.plot(x, uni.pdf(x))
+    #plt.show()
+
+uniform_stats()
