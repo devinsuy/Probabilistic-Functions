@@ -124,8 +124,8 @@ over specified n evenly spaced values
 '''
 def uniform_stats(a=1, b=10, n=1000000):
     x = np.linspace(a-1, b+1, n)
-    pdf_y = uni.pdf(x, a, b-1)
-    cdf_y = uni.cdf(x, a, b-1)
+    pdf_y = uni.pdf(x, a, b-a)
+    cdf_y = uni.cdf(x, a, b-a)
 
     # Plot PDF and CDF horizontally
     plt.subplot(1,2,1)
@@ -141,6 +141,6 @@ def uniform_stats(a=1, b=10, n=1000000):
     plt.ylabel("F(x)")
     plt.show()
 
-# uniform_stats()
+uniform_stats()
 
 
