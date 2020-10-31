@@ -141,6 +141,43 @@ def uniform_stats(a=1, b=10, n=1000000):
     plt.ylabel("F(x)")
     plt.show()
 
-uniform_stats()
+# uniform_stats()
 
+'''
+Points are selected at random from the circumference of a circle. 
+Simulate the probability that the three points lie on the same semicircle
+'''
+# All points are are on the same semi circle if the distance from the middle 
+# point to the min and max point is no more than the semicricle length
+def same_semi(points, semi_len):
+    points.sort()
+    mid = int(len(points) / 2)
+    return points[mid] - points[0] < semi_len and points[-1] - points[mid] < semi_len
+
+def semi_circle(num_points=3, r = 3, n=100000):
+    # Calculate the circumference, and length of a semicircle
+    circumference = 2 * np.pi * r
+    semi_len = circumference / 2
+    same_semi_count = 0
+
+    # Perform n trials of randomly selecting num_points
+    for _ in range(n):
+        # Randomly select three values on the circumference, assuming
+        # 12 o'clock position as 0 with increasing values moving clockwise
+        # rand_pts = np.random.uniform(0, 360, num_points)
+        rand_pts = np.random.uniform(0, circumference, num_points)
+        if same_semi(rand_pts, semi_len): same_semi_count += 1
+    p_same_semi = round(same_semi_count / n, 3)
+    
+    # Output results
+    print("Results\n-------")
+    print("Randomly selected points:", num_points)
+    print("Circle Radius:", round(r, 3))
+    print("Circumference:", round(circumference, 3))
+    print("Semicircle length:", round(semi_len, 3))
+    print("\nNumber of trials: n =", n)
+    print("Probability of same semicircle:", p_same_semi, 
+    "(" + str(same_semi_count) + "/" + str(n) + ")")
+
+semi_circle()
 
