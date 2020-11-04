@@ -179,5 +179,5 @@ def semi_circle(num_points=3, r = 3, n=100000):
     print("Probability of same semicircle:", p_same_semi, 
     "(" + str(same_semi_count) + "/" + str(n) + ")")
 
-semi_circle()
+# semi_circle()
 
