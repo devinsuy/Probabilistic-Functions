@@ -1,11 +1,13 @@
 from scipy import stats
-from math import erf, sqrt, pi, e
+from math import erf, floor, ceil, sqrt, pi, e
 from matplotlib import pyplot as plt
 from collections import OrderedDict
 import numpy as np
 
 '''
+----------------------------
 Normal Gaussian Distribution
+----------------------------
 '''
 # Implementation of probability density function f(x) 
 def pdf(x, mu=0, var=1):
@@ -84,7 +86,9 @@ def generate_all_plots(start_val=-6, end_val=6):
 
 
 '''
+---------------------
 Central Limit Theorem
+---------------------
 '''
 
 # Returns the mean of uniform distribution over [a,b]
@@ -101,7 +105,6 @@ def single_book(a=1, b=3):
     + "\n----------------------------")
     print("   Mean:", uniform_mean(a,b), "cm")
     print("   Sdev:", uniform_sdev(a,b), "cm")
-
 
 # For a stack of n books, return the mean thickness
 def stack_mean(n, a, b):
@@ -138,9 +141,8 @@ def run_simu_util(n, a=1, b=3, N=100000):
 
     return [mean, s_dev, hist, b_edges, bar, w]
 
-
+# Run the simulation for each n value
 def run_book_simu(n_vals=[1,5,15], a=1, b=3, N=100000):
-    # Run the simulation for each n value
     plt_data = []
     for n in n_vals:
         mean, s_dev, hist, b_edges, bar, w = run_simu_util(n, a, b, N)
@@ -157,8 +159,64 @@ def run_book_simu(n_vals=[1,5,15], a=1, b=3, N=100000):
 
 
 
-        
+
+'''
+-------------------------------------------------------
+Distribution of the sum of exponential random variables
+-------------------------------------------------------
+- A battery lasts an average of 𝛽 = 45 𝑑𝑎𝑦𝑠
+- Batteries are purchased in a carton of 24
+'''
+
+# Generate the n values with the given beta in an exponential
+# distribution, representing our "batteries" comprising a "carton"
+def generate_carton(beta, n):
+    return np.random.exponential(beta, n)
+
+def run_carton_simu(beta=45, n=24, N=10000):
+    # Run N simulations of cartons, track lifetime sum C
+    C_vals = []
+    for _ in range(N): C_vals.append(sum(generate_carton(beta, n)))
+
+    # Central Limit: Calculate mean and s_dev for gaussian plot
+    mean = n * beta
+    s_dev = beta * sqrt(n)
+
+    # Find the min and max values for bins
+    min_val = float('inf')
+    max_val = float('-inf')
+    for c_val in C_vals:
+        if c_val < min_val: min_val = c_val
+        if c_val > max_val: max_val = c_val
+    min_val = floor(min_val-1)
+    max_val = ceil(max_val+1)
+    print(min_val)
+
+    # Plot PDF of carton lifetime f(c)
+    plt.subplot(1,2,1)
+    hist, b_edges = np.histogram(C_vals, bins=np.linspace(min_val, max_val), density=True)
+    bar = (b_edges[:-1]+b_edges[1:]) / 2
+    w = bar[1]-bar[0]
+    plt.bar(x=bar, height=hist, width=w, edgecolor='w')
+
+    # Plot normal distribution with calculated mean and s_dev
+    norm_vals = [pdf(x, mu=mean, var=pow(s_dev,2)) for x in bar]
+    plt.plot(bar, norm_vals, 'r')
+    plt.xlabel("Lifetime of Carton of n=" + str(n) + " Batteries (days)")
+    plt.ylabel("Probability Density Function")
+    plt.title("Battery Carton Lifetime PDF f(x) and Normal Distribution")
+
+    # Plot cumulative distribution function
+    plt.subplot(1,2,2)
+    cdf = np.cumsum(hist*w)
+    plt.plot(np.linspace(min_val, max_val, len(cdf)), cdf)
+    plt.xlabel("Lifetime of Carton of n=" + str(n) + " Batteries (days)")
+    plt.ylabel("Cumulative Distribution Function F(x)")
+    plt.title("Battery Carton Lifetime CDF F(x)")
+    plt.show()
 
 
-run_book_simu()
-    
+
+
+
+run_carton_simu()
