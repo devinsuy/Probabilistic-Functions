@@ -123,20 +123,42 @@ def book_stack(n_vals=[1,5,15], a=1, b=3):
 
 # Perform N samples of size n to generate probability 
 # histogram and plot of normal PDF f(x)
-def run_book_simu(n, a=1, b=3, N=100):
-    print(np.random.uniform(a,b,n))
-    s_vals = []
-    for _ in range(N):
-        # Randomly sample n values from [a,b]
-        s_vals.append(np.random.uniform(a, b, n))
-    
-    print(s_vals)
-    # Create histogram
-    # plt.hist(s_vals, bins=range(a, b))    
-    # plt.title("Number of Dice Rolls to Reach Value 7")
-    # plt.xlabel("Number of Rolls")
-    # plt.ylabel("Number of Occurrences")
-    # plt.show()
+def run_simu_util(n, a=1, b=3, N=100000):
+    mean = stack_mean(n, a, b)
+    s_dev = stack_sdev(n, a, b)
 
-run_book_simu(1)
+    # Randomly sample n values from [a,b]
+    s_vals = []
+    for _ in range(N): s_vals.append(np.sum(np.random.uniform(a, b, n)))
+
+    # Generate histogram bars
+    hist, b_edges = np.histogram(a=s_vals, bins=np.linspace(n*a, n*b, 31), density=True)
+    bar = (b_edges[:-1]+b_edges[1:]) / 2
+    w = bar[1]-bar[0] 
+
+    return [mean, s_dev, hist, b_edges, bar, w]
+
+
+def run_book_simu(n_vals=[1,5,15], a=1, b=3, N=100000):
+    # Run the simulation for each n value
+    plt_data = []
+    for n in n_vals:
+        mean, s_dev, hist, b_edges, bar, w = run_simu_util(n, a, b, N)
+
+        # Plot results
+        plt.bar(x=bar, height=hist, width=w, edgecolor='w')
+        pdf_vals = [pdf(x, mu=mean, var=pow(s_dev,2)) for x in bar]
+        plt.plot(bar, pdf_vals, 'r')
+        plt.xlabel("Height of Book Stack (cm) for Size n=" + str(n) + " Books")
+        plt.ylabel("Probability Density Function")
+        plt.title("Book Stack Height PDF and Normal Distribution Over N=" + str(N) 
+        + " Samples In [" + str(a) + "," + str(b) + "]")
+        plt.show()
+
+
+
+        
+
+
+run_book_simu()
     
