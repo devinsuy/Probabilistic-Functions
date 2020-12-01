@@ -30,6 +30,9 @@ def show_verification():
     print("   Using self implementation :", cdf(1))
     print("   Using scipy.stats.norm.cdf:", stats.norm.cdf(1))
 
+# show_verification()
+
+
 # Given a range [start_val, end_val] returns a data dictionary
 # mapping input -> pdf/cdf output vals for each val in the range 
 def get_plot(start_val, end_val, use_pdf=True, mu=0, var=1):
@@ -106,6 +109,9 @@ def single_book(a=1, b=3):
     print("   Mean:", uniform_mean(a,b), "cm")
     print("   Sdev:", uniform_sdev(a,b), "cm")
 
+# single_book()
+
+
 # For a stack of n books, return the mean thickness
 def stack_mean(n, a, b):
     return round(n * uniform_mean(a,b), 3) 
@@ -122,6 +128,8 @@ def book_stack(n_vals=[1,5,15], a=1, b=3):
         print("   Stack @ n=" + str(n) + " books:")
         print("      Sn Mean:", stack_mean(n, a, b), "cm")
         print("      Sn Sdev:", stack_sdev(n, a, b), "cm")
+
+# book_stack()
 
 
 # Perform N samples of size n to generate probability 
@@ -157,7 +165,7 @@ def run_book_simu(n_vals=[1,5,15], a=1, b=3, N=100000):
         + " Samples In [" + str(a) + "," + str(b) + "]")
         plt.show()
 
-
+# run_book_simu()
 
 
 '''
@@ -214,9 +222,5 @@ def run_carton_simu(beta=45, n=24, N=10000):
     plt.ylabel("Cumulative Distribution Function F(x)")
     plt.title("Battery Carton Lifetime CDF F(x)")
     plt.show()
-
-
-
-
 
 run_carton_simu()
