@@ -84,7 +84,7 @@ def generate_all_plots(start_val=-6, end_val=6):
     plt.legend()
     plt.show()
 
-generate_all_plots()
+# generate_all_plots()
 
 
 
