@@ -39,11 +39,11 @@ def get_plot(start_val, end_val, use_pdf=True, mu=0, var=1):
     output = {}
     # Map using probability density function
     if use_pdf:
-        for val in range(start_val, end_val+1): output[val] = pdf(val, mu, var)
+        for val in np.linspace(start_val, end_val, 10000): output[val] = pdf(val, mu, var)
         
     # Map values using cumulative distribution function
     else:
-        for val in range(start_val, end_val+1): output[val] = cdf(val, mu, var)
+        for val in np.linspace(start_val, end_val, 10000): output[val] = cdf(val, mu, var)
 
     return output 
 
@@ -56,7 +56,7 @@ def generate_all_plots(start_val=-6, end_val=6):
     # Maps mu_var argument ID to the corresponding plot values
     plot_vals_pdf = OrderedDict()
     plot_vals_cdf = OrderedDict()
-    x_vals = [i for i in range(start_val, end_val+1)]
+    x_vals = np.linspace(start_val, end_val, 10000)
 
     # Generate plots for each of our mu, variance settings
     for i in range(len(mu_var)):
@@ -84,7 +84,7 @@ def generate_all_plots(start_val=-6, end_val=6):
     plt.legend()
     plt.show()
 
-# generate_all_plots()
+generate_all_plots()
 
 
 
