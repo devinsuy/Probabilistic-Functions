@@ -66,6 +66,8 @@ def sample_size_confidence(mu=100, sigma=12, N=1000000, MAX_SAMPLE=200):
     plt.xlabel("Sample Size")
     plt.title("Sample Means and 99% Confidence Intervals (mu=" + str(mu) + ", sigma=" + str(sigma) + ", N=" + str(N) + ")")
     plt.show()
+    
+sample_size_confidence()
 
 
 def normal_studT(mu=100, sigma=12, N=1000000, num_trials=10000, n_vals=[5,40,120]):
@@ -112,6 +114,5 @@ def normal_studT(mu=100, sigma=12, N=1000000, num_trials=10000, n_vals=[5,40,120
     print("\nT distribution, 99% confidence:")
     for n, success_count in t_success_99.items():
         print("   n=" + str(n) + ": Success rate " + str(round(success_count/10000, 3)))
-
 
 normal_studT()
