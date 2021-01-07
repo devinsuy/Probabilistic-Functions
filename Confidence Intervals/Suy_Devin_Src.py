@@ -66,8 +66,8 @@ def sample_size_confidence(mu=100, sigma=12, N=1000000, MAX_SAMPLE=200):
     plt.xlabel("Sample Size")
     plt.title("Sample Means and 99% Confidence Intervals (mu=" + str(mu) + ", sigma=" + str(sigma) + ", N=" + str(N) + ")")
     plt.show()
-    
-sample_size_confidence()
+
+# sample_size_confidence()
 
 
 def normal_studT(mu=100, sigma=12, N=1000000, num_trials=10000, n_vals=[5,40,120]):
